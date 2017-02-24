@@ -67,8 +67,8 @@ public class Menu : MonoBehaviour {
     {
         return Mathf.CeilToInt((float)tiles.Count / TilesPerPage);
     }
-	
-	void Update ()
+
+    void Update ()
     {
         var axisValue = Input.GetAxis("Horizontal");
         if (axisValue != prevAxisValue)
