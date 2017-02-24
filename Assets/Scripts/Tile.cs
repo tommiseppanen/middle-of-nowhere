@@ -1,29 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
-using VRStandardAssets.Utils;
 
-public class Tile : MonoBehaviour {
-
-    [SerializeField]
-    private VRInteractiveItem interactiveItem;
-
+public class Tile : InteractiveItemBase
+{
     public Menu Menu { get; set; }
     public Project ProjectData { get; set; }
-
-    private void OnEnable()
-    {
-        interactiveItem.OnClick += HandleClick;
-        interactiveItem.OnOver += HandleOver;
-        interactiveItem.OnOut += HandleOut;
-    }
-
-
-    private void OnDisable()
-    {
-        interactiveItem.OnClick -= HandleClick;
-        interactiveItem.OnOver -= HandleOver;
-        interactiveItem.OnOut -= HandleOut;
-    }
 
     public IEnumerator LoadImage()
     {
@@ -48,17 +29,7 @@ public class Tile : MonoBehaviour {
             target.mainTextureScale = new Vector2((float)height / width, 1.0f);
     }
 
-    void HandleOver()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Outline");
-    }
-
-    void HandleOut()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Default");
-    }
-
-    void HandleClick()
+    protected override void HandleClick()
     {
         Menu.ShowProjectDetails(ProjectData);
         gameObject.layer = LayerMask.NameToLayer("Default");
