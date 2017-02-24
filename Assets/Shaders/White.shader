@@ -7,7 +7,7 @@
         Lighting Off
         Pass
         {
-			CGPROGRAM
+            CGPROGRAM
             #pragma vertex vertexShader
             #pragma fragment fragmentShader
  
@@ -16,10 +16,10 @@
                 float4 vertex:SV_POSITION;
             };
  
-			vertexToFragment vertexShader(vertexToFragment input)
+            vertexToFragment vertexShader(vertexToFragment input)
             {
-				vertexToFragment output;
-				output.vertex = mul(UNITY_MATRIX_MVP, input.vertex);
+                vertexToFragment output;
+                output.vertex = mul(UNITY_MATRIX_MVP, input.vertex);
                 return output;
             }
  
