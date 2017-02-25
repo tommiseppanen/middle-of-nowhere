@@ -23,7 +23,6 @@ public class Menu : MonoBehaviour {
     private static readonly Quaternion TileRotation = Quaternion.Euler(90, 180, 0);
 
     private int _page;
-    private int _maxLoadedPage;
     private List<Transform> _tiles;
     private bool _pageChangeTriggered;
 
@@ -37,9 +36,9 @@ public class Menu : MonoBehaviour {
         UpdatePageNumber();
     }
 
-    private void CreateTiles(List<Project> projects)
+    private void CreateTiles(IList<Project> projects)
     {
-        for (int i = 0; i < projects.Count; i++)
+        for (var i = 0; i < projects.Count; i++)
         {
             var tileObject = Instantiate(_tilePrefab, 
                 new Vector3((i / 2) * TileGap - TileGap, ((i + 1) % 2) * TileGap + HeightOffset, 0), 
