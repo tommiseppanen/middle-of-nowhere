@@ -3,12 +3,12 @@
 public class PageButton : InteractiveItemBase
 {
     [SerializeField]
-    private Menu menu;
+    private Menu _menu;
     [SerializeField]
-    private int pageDelta;
+    private int _pageDelta;
 
     protected override void HandleClick()
     {
-        menu.ChangePage(pageDelta);
+        _menu.ChangePage(_pageDelta);
     }
 }

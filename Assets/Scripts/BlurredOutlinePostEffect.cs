@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 
 public class BlurredOutlinePostEffect : MonoBehaviour {
-    private Camera mainCamera;
+    private Camera _mainCamera;
     public Shader BlurredOutlineShader;
     public Shader WhiteShader;
-    private Camera temporaryCamera;
-    private Material postEffectMaterial;
+    private Camera _temporaryCamera;
+    private Material _postEffectMaterial;
 
     private void Start()
     {
-        mainCamera = GetComponent<Camera>();
-        temporaryCamera = new GameObject().AddComponent<Camera>();
-        temporaryCamera.enabled = false;
-        postEffectMaterial = new Material(BlurredOutlineShader);
+        _mainCamera = GetComponent<Camera>();
+        _temporaryCamera = new GameObject().AddComponent<Camera>();
+        _temporaryCamera.enabled = false;
+        _postEffectMaterial = new Material(BlurredOutlineShader);
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -26,22 +26,22 @@ public class BlurredOutlinePostEffect : MonoBehaviour {
 
     private void SetUpTemporaryCamera()
     {
-        temporaryCamera.CopyFrom(mainCamera);
-        temporaryCamera.clearFlags = CameraClearFlags.Color;
-        temporaryCamera.backgroundColor = Color.black;
-        temporaryCamera.cullingMask = 1 << LayerMask.NameToLayer("Outline");
+        _temporaryCamera.CopyFrom(_mainCamera);
+        _temporaryCamera.clearFlags = CameraClearFlags.Color;
+        _temporaryCamera.backgroundColor = Color.black;
+        _temporaryCamera.cullingMask = 1 << LayerMask.NameToLayer("Outline");
     }
 
     private void RenderOutlineObjectsToTexture(RenderTexture temporaryTexture)
     {
         temporaryTexture.Create();
-        temporaryCamera.targetTexture = temporaryTexture;
-        temporaryCamera.RenderWithShader(WhiteShader, "");
+        _temporaryCamera.targetTexture = temporaryTexture;
+        _temporaryCamera.RenderWithShader(WhiteShader, "");
     }
 
     private void RenderDestinationTexture(Texture source, RenderTexture destination, Texture temporaryTexture)
     {
-        postEffectMaterial.SetTexture("_SceneTex", source);
-        Graphics.Blit(temporaryTexture, destination, postEffectMaterial);
+        _postEffectMaterial.SetTexture("_SceneTex", source);
+        Graphics.Blit(temporaryTexture, destination, _postEffectMaterial);
     }
 }

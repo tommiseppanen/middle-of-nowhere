@@ -6,15 +6,15 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour {
     [SerializeField]
-    private string Url;
+    private string _url;
     [SerializeField]
-    private Transform TilePrefab;
+    private Transform _tilePrefab;
     [SerializeField]
-    private Transform TileParent;
+    private Transform _tileParent;
     [SerializeField]
-    private InfoCanvas InfoCanvas;
+    private InfoCanvas _infoCanvas;
     [SerializeField]
-    private TextMesh currentPage;
+    private TextMesh _currentPage;
 
     private const int TilesPerPage = 6;
     private const float TileGap = 1.2f;
@@ -22,14 +22,14 @@ public class Menu : MonoBehaviour {
     private const float PageWidth = 3.6f;
     private static readonly Quaternion TileRotation = Quaternion.Euler(90, 180, 0);
 
-    private int page;
-    private int maxLoadedPage;
-    private List<Transform> tiles;
-    private bool pageChangeTriggered;
+    private int _page;
+    private int _maxLoadedPage;
+    private List<Transform> _tiles;
+    private bool _pageChangeTriggered;
 
     private IEnumerator Start () {
-        tiles = new List<Transform>();
-        var dataRequest = new WWW(Url);
+        _tiles = new List<Transform>();
+        var dataRequest = new WWW(_url);
         yield return dataRequest;
         var projects = JsonConvert.DeserializeObject<List<Project>>(dataRequest.text)
             .OrderByDescending(p => p.Published).ToList();
@@ -41,10 +41,10 @@ public class Menu : MonoBehaviour {
     {
         for (int i = 0; i < projects.Count; i++)
         {
-            var tileObject = Instantiate(TilePrefab, 
+            var tileObject = Instantiate(_tilePrefab, 
                 new Vector3((i / 2) * TileGap - TileGap, ((i + 1) % 2) * TileGap + HeightOffset, 0), 
-                TileRotation, TileParent);
-            tiles.Add(tileObject);
+                TileRotation, _tileParent);
+            _tiles.Add(tileObject);
             InitializeTile(tileObject, projects[i], i < 6);
         }
     }
@@ -60,45 +60,45 @@ public class Menu : MonoBehaviour {
 
     private void UpdatePageNumber()
     {
-        currentPage.text = (page + 1) + "/" + PageCount();
+        _currentPage.text = (_page + 1) + "/" + PageCount();
     }
 
     private int PageCount()
     {
-        return Mathf.CeilToInt((float)tiles.Count / TilesPerPage);
+        return Mathf.CeilToInt((float)_tiles.Count / TilesPerPage);
     }
 
     private void Update ()
     {
         var axisValue = Input.GetAxis("Horizontal");
-        if (!pageChangeTriggered)
+        if (!_pageChangeTriggered)
         {
             if (axisValue > 0.5f)
             {
                 ChangePage(1);
-                pageChangeTriggered = true;
+                _pageChangeTriggered = true;
             }
             else if (axisValue < -0.5f)
             {
                 ChangePage(-1);
-                pageChangeTriggered = true;
+                _pageChangeTriggered = true;
             }
         }
         else
         {
             if(axisValue < 0.5f && axisValue > -0.5f)
-                pageChangeTriggered = false;
+                _pageChangeTriggered = false;
         }
     }
 
     public void ChangePage(int delta)
     {
-        if (page + delta < 0 || page + delta >= PageCount())
+        if (_page + delta < 0 || _page + delta >= PageCount())
             return;
-        ToggleVisibility(page, false);
-        page += delta;
-        TileParent.transform.position = new Vector3(-PageWidth * page, 0, 0);
-        ToggleVisibility(page, true);
+        ToggleVisibility(_page, false);
+        _page += delta;
+        _tileParent.transform.position = new Vector3(-PageWidth * _page, 0, 0);
+        ToggleVisibility(_page, true);
         UpdatePageNumber();
     }
 
@@ -107,10 +107,10 @@ public class Menu : MonoBehaviour {
         for (var i = 0; i < TilesPerPage; i++)
         {
             var tileIndex = page * TilesPerPage + i;
-            if (tileIndex < tiles.Count)
+            if (tileIndex < _tiles.Count)
             {
-                tiles[tileIndex].gameObject.SetActive(visible);
-                tiles[tileIndex].gameObject.layer = LayerMask.NameToLayer("Default");
+                _tiles[tileIndex].gameObject.SetActive(visible);
+                _tiles[tileIndex].gameObject.layer = LayerMask.NameToLayer("Default");
             }
             else
                 break;
@@ -119,14 +119,14 @@ public class Menu : MonoBehaviour {
 
     public void ShowProjectDetails(Project project)
     {
-        InfoCanvas.ShowProjectDetails(project);
-        InfoCanvas.gameObject.SetActive(true);
-        TileParent.gameObject.SetActive(false);
+        _infoCanvas.ShowProjectDetails(project);
+        _infoCanvas.gameObject.SetActive(true);
+        _tileParent.gameObject.SetActive(false);
     }
 
     public void ShowProjectTiles()
     {
-        InfoCanvas.gameObject.SetActive(false);
-        TileParent.gameObject.SetActive(true);
+        _infoCanvas.gameObject.SetActive(false);
+        _tileParent.gameObject.SetActive(true);
     }
 }

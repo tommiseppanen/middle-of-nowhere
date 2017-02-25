@@ -4,20 +4,20 @@ using UnityEngine.UI;
 public class InfoCanvas : InteractiveItemBase
 {
     [SerializeField]
-    private Text title;
+    private Text _title;
     [SerializeField]
-    private Text infoText;
+    private Text _infoText;
     [SerializeField]
-    private Menu menu;
+    private Menu _menu;
 
     public void ShowProjectDetails(Project project)
     {
-        title.text = project.Name;
-        infoText.text = project.Description+ "\n\nTechnologies: "+string.Join(", ", project.Technologies.ToArray());
+        _title.text = project.Name;
+        _infoText.text = project.Description+ "\n\nTechnologies: "+string.Join(", ", project.Technologies.ToArray());
     }
 
     protected override void HandleClick()
     {
-        menu.ShowProjectTiles();
+        _menu.ShowProjectTiles();
     }
 }
