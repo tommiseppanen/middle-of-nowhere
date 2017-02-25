@@ -17,7 +17,7 @@
 
     struct vertexToFragment
     {
-        float4 vertex : SV_POSITION;
+        float4 vertex : POSITION;
         float2 uv : TEXCOORD0;
     };
 

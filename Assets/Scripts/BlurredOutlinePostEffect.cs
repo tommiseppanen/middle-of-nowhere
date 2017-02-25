@@ -18,7 +18,7 @@ public class BlurredOutlinePostEffect : MonoBehaviour {
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         SetUpTemporaryCamera();
-        RenderTexture temporaryRenderTexture = new RenderTexture(source.width, source.height, 0, RenderTextureFormat.R8);
+        var temporaryRenderTexture = new RenderTexture(source.width, source.height, 0, RenderTextureFormat.R8);
         RenderOutlineObjectsToTexture(temporaryRenderTexture);
         RenderDestinationTexture(source, destination, temporaryRenderTexture);
         temporaryRenderTexture.Release();
@@ -39,7 +39,7 @@ public class BlurredOutlinePostEffect : MonoBehaviour {
         temporaryCamera.RenderWithShader(WhiteShader, "");
     }
 
-    private void RenderDestinationTexture(RenderTexture source, RenderTexture destination, RenderTexture temporaryTexture)
+    private void RenderDestinationTexture(Texture source, RenderTexture destination, Texture temporaryTexture)
     {
         postEffectMaterial.SetTexture("_SceneTex", source);
         Graphics.Blit(temporaryTexture, destination, postEffectMaterial);

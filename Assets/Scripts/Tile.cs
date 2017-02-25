@@ -8,13 +8,13 @@ public class Tile : InteractiveItemBase
 
     public IEnumerator LoadImage()
     {
-        var renderer = GetComponent<Renderer>();
-        WWW imageRequest = new WWW(ProjectData.ImageUrl);
+        var rendererComponent = GetComponent<Renderer>();
+        var imageRequest = new WWW(ProjectData.ImageUrl);
         yield return imageRequest;
-        SetMaterialParameters(renderer.material, imageRequest.texture);
+        SetMaterialParameters(rendererComponent.material, imageRequest.texture);
     }
 
-    private void SetMaterialParameters(Material target, Texture2D texture)
+    private static void SetMaterialParameters(Material target, Texture texture)
     {
         target.mainTexture = texture;
         var height = texture.height;

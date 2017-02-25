@@ -25,19 +25,19 @@ public class Menu : MonoBehaviour {
     private int page;
     private int maxLoadedPage;
     private List<Transform> tiles;
-    private float prevAxisValue;
+    private bool pageChangeTriggered;
 
-    IEnumerator Start () {
+    private IEnumerator Start () {
         tiles = new List<Transform>();
         var dataRequest = new WWW(Url);
         yield return dataRequest;
         var projects = JsonConvert.DeserializeObject<List<Project>>(dataRequest.text)
             .OrderByDescending(p => p.Published).ToList();
-        createTiles(projects);
+        CreateTiles(projects);
         UpdatePageNumber();
     }
 
-    private void createTiles(List<Project> projects)
+    private void CreateTiles(List<Project> projects)
     {
         for (int i = 0; i < projects.Count; i++)
         {
@@ -49,7 +49,7 @@ public class Menu : MonoBehaviour {
         }
     }
 
-    private void InitializeTile(Transform tileObject, Project project, bool setActive)
+    private void InitializeTile(Component tileObject, Project project, bool setActive)
     {
         var tile = tileObject.GetComponent<Tile>();
         tile.gameObject.SetActive(setActive);
@@ -68,16 +68,26 @@ public class Menu : MonoBehaviour {
         return Mathf.CeilToInt((float)tiles.Count / TilesPerPage);
     }
 
-    void Update ()
+    private void Update ()
     {
         var axisValue = Input.GetAxis("Horizontal");
-        if (axisValue != prevAxisValue)
+        if (!pageChangeTriggered)
         {
             if (axisValue > 0.5f)
+            {
                 ChangePage(1);
+                pageChangeTriggered = true;
+            }
             else if (axisValue < -0.5f)
+            {
                 ChangePage(-1);
-            prevAxisValue = axisValue;
+                pageChangeTriggered = true;
+            }
+        }
+        else
+        {
+            if(axisValue < 0.5f && axisValue > -0.5f)
+                pageChangeTriggered = false;
         }
     }
 
@@ -94,7 +104,7 @@ public class Menu : MonoBehaviour {
 
     private void ToggleVisibility(int page, bool visible)
     {
-        for (int i = 0; i < TilesPerPage; i++)
+        for (var i = 0; i < TilesPerPage; i++)
         {
             var tileIndex = page * TilesPerPage + i;
             if (tileIndex < tiles.Count)
