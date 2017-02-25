@@ -1,23 +1,20 @@
 ﻿using UnityEngine;
 using VRStandardAssets.Utils;
 
-public class InteractiveItemBase : MonoBehaviour
+public class InteractiveItemBase : VRInteractiveItem
 {
-    [SerializeField]
-    private VRInteractiveItem interactiveItem;
-
     private void OnEnable()
     {
-        interactiveItem.OnClick += HandleClick;
-        interactiveItem.OnOver += HandleOver;
-        interactiveItem.OnOut += HandleOut;
+        OnClick += HandleClick;
+        OnOver += HandleOver;
+        OnOut += HandleOut;
     }
 
     private void OnDisable()
     {
-        interactiveItem.OnClick -= HandleClick;
-        interactiveItem.OnOver -= HandleOver;
-        interactiveItem.OnOut -= HandleOut;
+        OnClick -= HandleClick;
+        OnOver -= HandleOver;
+        OnOut -= HandleOut;
     }
 
     private void HandleOver()

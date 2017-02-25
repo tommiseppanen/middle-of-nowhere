@@ -13,7 +13,7 @@
  
             struct vertexToFragment
             {
-                float4 vertex:SV_POSITION;
+                float4 vertex:POSITION;
             };
  
             vertexToFragment vertexShader(vertexToFragment input)
