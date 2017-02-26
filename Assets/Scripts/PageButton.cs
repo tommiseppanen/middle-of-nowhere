@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 
-public class PageButton : InteractiveItemBase
+namespace MiddleOfNowhere.Scripts
 {
-    [SerializeField]
-    private Menu _menu;
-    [SerializeField]
-    private int _pageDelta;
-
-    protected override void HandleClick()
+    public class PageButton : InteractiveItemBase
     {
-        _menu.ChangePage(_pageDelta);
+        [SerializeField]
+        private Menu _menu;
+        [SerializeField]
+        private int _pageDelta;
+
+        protected override void HandleClick()
+        {
+            _menu.ChangePage(_pageDelta);
+        }
     }
 }
+

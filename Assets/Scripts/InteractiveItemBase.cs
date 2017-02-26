@@ -1,34 +1,36 @@
 ﻿using UnityEngine;
 using VRStandardAssets.Utils;
 
-public class InteractiveItemBase : VRInteractiveItem
+namespace MiddleOfNowhere.Scripts
 {
-    private void OnEnable()
+    public class InteractiveItemBase : VRInteractiveItem
     {
-        OnClick += HandleClick;
-        OnOver += HandleOver;
-        OnOut += HandleOut;
-    }
+        private void OnEnable()
+        {
+            OnClick += HandleClick;
+            OnOver += HandleOver;
+            OnOut += HandleOut;
+        }
 
-    private void OnDisable()
-    {
-        OnClick -= HandleClick;
-        OnOver -= HandleOver;
-        OnOut -= HandleOut;
-    }
+        private void OnDisable()
+        {
+            OnClick -= HandleClick;
+            OnOver -= HandleOver;
+            OnOut -= HandleOut;
+        }
 
-    private void HandleOver()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Outline");
-    }
+        private void HandleOver()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Outline");
+        }
 
-    private void HandleOut()
-    {
-        gameObject.layer = LayerMask.NameToLayer("Default");
-    }
+        private void HandleOut()
+        {
+            gameObject.layer = LayerMask.NameToLayer("Default");
+        }
 
-    protected virtual void HandleClick()
-    {
+        protected virtual void HandleClick()
+        {
+        }
     }
 }
-

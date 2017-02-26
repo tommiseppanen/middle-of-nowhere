@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-public class BackToMenuButton : InteractiveItemBase
+namespace MiddleOfNowhere.Scripts
 {
-    [SerializeField]
-    private Menu _menu;
-
-    protected override void HandleClick()
+    public class BackToMenuButton : InteractiveItemBase
     {
-        _menu.ShowProjectTiles();
+        [SerializeField]
+        private Menu _menu;
+
+        protected override void HandleClick()
+        {
+            _menu.ShowProjectTiles();
+        }
     }
 }
