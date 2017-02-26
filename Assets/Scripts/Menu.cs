@@ -12,6 +12,8 @@ public class Menu : MonoBehaviour {
     [SerializeField]
     private Transform _tileParent;
     [SerializeField]
+    private Transform _pagingControls;
+    [SerializeField]
     private InfoCanvas _infoCanvas;
     [SerializeField]
     private TextMesh _currentPage;
@@ -92,7 +94,7 @@ public class Menu : MonoBehaviour {
 
     public void ChangePage(int delta)
     {
-        if (_page + delta < 0 || _page + delta >= PageCount())
+        if (_page + delta < 0 || _page + delta >= PageCount() || !_pagingControls.gameObject.activeSelf)
             return;
         ToggleVisibility(_page, false);
         _page += delta;
@@ -121,11 +123,13 @@ public class Menu : MonoBehaviour {
         _infoCanvas.ShowProjectDetails(project);
         _infoCanvas.gameObject.SetActive(true);
         _tileParent.gameObject.SetActive(false);
+        _pagingControls.gameObject.SetActive(false);
     }
 
     public void ShowProjectTiles()
     {
         _infoCanvas.gameObject.SetActive(false);
         _tileParent.gameObject.SetActive(true);
+        _pagingControls.gameObject.SetActive(true);
     }
 }
