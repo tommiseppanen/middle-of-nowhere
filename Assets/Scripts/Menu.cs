@@ -47,7 +47,7 @@ namespace MiddleOfNowhere.Scripts
             for (var i = 0; i < projects.Count; i++)
             {
                 var tileObject = Instantiate(_tilePrefab,
-                    new Vector3((i / 2) * TileGap - TileGap, ((i + 1) % 2) * TileGap + HeightOffset, 0),
+                    new Vector3((i % 3 + (i/6) * 3) * TileGap - TileGap, ((i/3 + 1) % 2) * TileGap + HeightOffset, 0),
                     TileRotation, _tileParent);
                 _tiles.Add(tileObject);
                 InitializeTile(tileObject, projects[i], i < 6);
